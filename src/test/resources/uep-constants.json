@@ -1,0 +1,8 @@
+{
+  "imsi_prefix": [94721, 30090, 98419, 68754, 51032, 91416, 79307, 21803, 90367, 14782],
+  "state": [{"value":  "A", "weight": 10}, "R", "C", "U", "S", "T", "X", "D", "V", "I", "O", "N", "W", "Z"],
+  "level": ["C", "D", "E"],
+  "metric": [{"value": "packet-switch", "weight": 3}, {"value": "data-transfer", "weight": 2}, "connection", "duration", "M001", "M002", "M003", "M004", "M005"],
+  "threshold_types":["min", "compound", {"value": "standard", "weight":  10}],
+  "vf_test": [ {"value":  true, "weight": 99}, false ]
+}

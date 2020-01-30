@@ -1,0 +1,26 @@
+Configuration:
+  status: info
+  name: RuntimeLog4j2Config
+
+  Appenders:
+    Console:
+      name: STDOUT
+      PatternLayout:
+        Pattern: "%d{ABSOLUTE} %p %c{4} [%t] %m%n"
+
+  Loggers:
+    Root:
+      level: warn
+      AppenderRef:
+        - ref: STDOUT
+    Logger:
+      - name: uk.dioxic.mtdk
+        level: info
+      - name: org.mongodb
+        level: warn
+      - name: org.mongodb.driver
+        level: warn
+      - name: org.reflections
+        level: warn
+      - name: uk.dioxic.faker
+        level: warn
