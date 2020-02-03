@@ -2,40 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="abe7e039-a8b4-4ceb-8a2e-81a10aae25c0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/$CACHE_FILE$" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/dioxic/mtdk/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/dioxic/mtdk/cli/command/ChangeStream.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/dioxic/mtdk/cli/command/ContinuousQueryCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/dioxic/mtdk/cli/command/ImsiHashCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/dioxic/mtdk/cli/command/LoadTemplate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/dioxic/mtdk/cli/command/MongoClientCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/dioxic/mtdk/cli/command/PrintCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/dioxic/mtdk/cli/command/QueryCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/dioxic/mtdk/cli/command/SchemaCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/dioxic/mtdk/operator/Imsi.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/dioxic/mtdk/util/ContinuousQuery.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/log4j2.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/uk/dioxic/mtdk/ContinuousQueryCommandTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/uk/dioxic/mtdk/FakeTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/uk/dioxic/mtdk/RunnerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/uk/dioxic/mtdk/SchemaCommandTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/uep-constants.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uk/dioxic/mtdk/cli/command/ContinuousQueryCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/dioxic/mtdk/cli/command/ContinuousQueryCommand.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -246,10 +214,10 @@
     <state width="600" height="424" key="javadoc.popup" timestamp="1580239597890">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="683" height="474" key="javadoc.popup.new" timestamp="1580310872209">
+    <state width="683" height="474" key="javadoc.popup.new" timestamp="1580725840509">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="683" height="474" key="javadoc.popup.new/0.0.1680.1050@0.0.1680.1050" timestamp="1580310872209" />
+    <state width="683" height="474" key="javadoc.popup.new/0.0.1680.1050@0.0.1680.1050" timestamp="1580725840509" />
     <state width="600" height="424" key="javadoc.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1580239597890" />
     <state x="505" y="233" width="670" height="676" key="search.everywhere.popup" timestamp="1580240311324">
       <screen x="0" y="0" width="1680" height="1050" />
