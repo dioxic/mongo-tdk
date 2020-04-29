@@ -3,6 +3,7 @@ package uk.dioxic.mtdk.cli.command;
 import com.mongodb.reactivestreams.client.MongoCollection;
 import org.bson.BsonDocument;
 import reactor.core.publisher.Flux;
+import uk.dioxic.mtdk.cli.mixin.MongoCommonMixin;
 
 import java.nio.file.Path;
 import java.util.concurrent.Callable;
@@ -13,7 +14,7 @@ import static picocli.CommandLine.Command;
 import static picocli.CommandLine.Option;
 
 @Command(name = "schema", description = "analyses a schema to generate a template")
-public class SchemaCommand extends MongoClientCommand implements Callable<Integer> {
+public class SchemaCommand extends MongoCommonMixin implements Callable<Integer> {
 
     @Option(names = {"-n", "--number"}, description = "number of documents to analyse (default: ${DEFAULT-VALUE})", defaultValue = "100")
     private Integer number;

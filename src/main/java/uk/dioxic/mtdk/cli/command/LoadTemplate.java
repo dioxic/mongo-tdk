@@ -3,6 +3,9 @@ package uk.dioxic.mtdk.cli.command;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.model.InsertManyOptions;
 import com.mongodb.reactivestreams.client.MongoCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import picocli.CommandLine.Mixin;
 import picocli.CommandLine.Parameters;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -11,6 +14,7 @@ import reactor.core.scheduler.Schedulers;
 import uk.dioxic.mgenerate.core.Template;
 import uk.dioxic.mgenerate.core.codec.TemplateCodec;
 import uk.dioxic.mgenerate.core.operator.OperatorFactory;
+import uk.dioxic.mtdk.cli.mixin.MongoCommonMixin;
 
 import java.util.concurrent.Callable;
 
@@ -18,25 +22,31 @@ import static org.bson.codecs.configuration.CodecRegistries.fromCodecs;
 import static picocli.CommandLine.Command;
 import static picocli.CommandLine.Option;
 
-@Command(name = "load", description = "loads random documents into a mongo collection based on an mgenerate template")
-public class LoadTemplate extends MongoClientCommand implements Callable<Integer> {
+@Command(name = "load",
+        description = "loads random documents into MongoDB based on an mgenerate template")
+public class LoadTemplate implements Callable<Integer> {
 
-    @Option(names = {"--drop"})
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Mixin
+    private MongoCommonMixin mongoCommonMixin;
+
+    @Option(names = {"--drop"}, description = "drop collection before loading data (default: ${DEFAULT-VALUE})", defaultValue = "false")
     private boolean drop;
 
-    @Option(names = {"-n", "--number"}, description = "number of documents to generate (default: ${DEFAULT-VALUE})", defaultValue = "5")
+    @Option(names = {"-n", "--number"}, description = "number of documents to generate (default: ${DEFAULT-VALUE})", defaultValue = "5", paramLabel = "arg")
     private Integer number;
 
-    @Option(names = {"-b", "--batchSize"}, description = "insert batch size (default: ${DEFAULT-VALUE})", defaultValue = "1000")
+    @Option(names = {"-b", "--batchSize"}, description = "insert batch size (default: ${DEFAULT-VALUE})", defaultValue = "1000", paramLabel = "arg")
     private int batchSize;
 
-    @Option(names = {"--concurrency"}, description = "reactive flapmap concurrency (default: ${DEFAULT-VALUE})", defaultValue = "3")
+    @Option(names = {"--concurrency"}, description = "reactive flapmap concurrency (default: ${DEFAULT-VALUE})", defaultValue = "3", paramLabel = "arg")
     private int concurrency;
 
-    @Parameters(paramLabel = "TEMPLATE", description = "mgenerate template file")
+    @Parameters(paramLabel = "TEMPLATE", description = "mgenerate template file or template string")
     private Template template;
 
-    private InsertManyOptions options;
+    private final InsertManyOptions options;
 
     public LoadTemplate() {
         options = new InsertManyOptions();
@@ -47,13 +57,12 @@ public class LoadTemplate extends MongoClientCommand implements Callable<Integer
     @Override
     public Integer call() {
 
-        createAsyncClient(MongoClientSettings.builder()
-                .codecRegistry(fromCodecs(new TemplateCodec())));
+        mongoCommonMixin.applyToClientSettings(builder -> builder.codecRegistry(fromCodecs(new TemplateCodec())));
 
-        MongoCollection<Template> mc = getAsyncCollection(Template.class);
+        MongoCollection<Template> mc = mongoCommonMixin.getAsyncCollection(Template.class);
 
         if (drop) {
-            logger.info("dropping collection {}", collection);
+            logger.info("dropping collection {}", mc.getNamespace().getCollectionName());
             Mono.from(mc.drop()).block();
         }
 

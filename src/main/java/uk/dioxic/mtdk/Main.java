@@ -4,18 +4,28 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Mixin;
 import picocli.CommandLine.Option;
 import uk.dioxic.mgenerate.core.Template;
 import uk.dioxic.mgenerate.core.operator.OperatorFactory;
-import uk.dioxic.mtdk.cli.command.ContinuousQueryCommand;
-import uk.dioxic.mtdk.cli.command.LoadTemplate;
-import uk.dioxic.mtdk.cli.command.PrintCommand;
-import uk.dioxic.mtdk.cli.command.SchemaCommand;
+import uk.dioxic.mtdk.cli.command.*;
+import uk.dioxic.mtdk.cli.mixin.FormattingMixin;
+import uk.dioxic.mtdk.util.ContinuousQuery;
 
 import java.nio.file.Paths;
 import java.util.concurrent.Callable;
 
-@Command(name = "mongo-tdk")
+@Command(name = "mongo-tdk",
+        header = "Mongo TDK v0.0.1",
+        description = "Mongo Test Development Kit",
+        subcommands = {
+                LoadTemplate.class,
+                PrintCommand.class,
+                SchemaCommand.class,
+                ContinuousQueryCommand.class,
+                CreateIndexCommand.class
+        }
+)
 public class Main implements Callable<Integer> {
 
     static {
@@ -23,19 +33,16 @@ public class Main implements Callable<Integer> {
         OperatorFactory.addBuilders("uk.dioxic.mtdk.operator");
     }
 
-    @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
-    private boolean helpRequested = false;
+    @Mixin
+    private FormattingMixin formattingMixin;
 
     private static CommandLine cl;
 
     public static void main(String[] args) {
         cl = new CommandLine(new Main());
-        cl.addSubcommand("load", new LoadTemplate());
-        cl.addSubcommand("print", new PrintCommand());
-        cl.addSubcommand("schema", new SchemaCommand());
-        cl.addSubcommand("csQuery", new ContinuousQueryCommand());
         cl.registerConverter(Template.class, s -> (s.startsWith("{")) ? Template.parse(s) : Template.from(s));
-        cl.registerConverter(Bson.class, s -> Document.parse(s));
+        cl.registerConverter(Bson.class, Document::parse);
+        cl.setUsageHelpLongOptionsMaxWidth(40);
         System.exit(cl.execute(args));
     }
 

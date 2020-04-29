@@ -1,19 +1,16 @@
 package uk.dioxic.mtdk.cli.command;
 
-import com.mongodb.ClientSessionOptions;
 import com.mongodb.ReadConcern;
-import com.mongodb.TransactionOptions;
 import com.mongodb.WriteConcern;
-import com.mongodb.client.ClientSession;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.TransactionBody;
-import com.mongodb.client.model.Aggregates;
-import com.mongodb.client.model.Filters;
+import com.mongodb.client.*;
 import com.mongodb.client.model.changestream.ChangeStreamDocument;
 import org.bson.BsonTimestamp;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.json.JsonWriterSettings;
+import picocli.CommandLine;
+import picocli.CommandLine.Mixin;
+import uk.dioxic.mtdk.cli.mixin.MongoCommonMixin;
 
 import java.io.IOException;
 import java.util.*;
@@ -29,7 +26,10 @@ import static picocli.CommandLine.Command;
 import static picocli.CommandLine.Option;
 
 @Command(name = "continuousQuery", description = "continuous queries something")
-public class ContinuousQueryCommand extends MongoClientCommand implements Callable<Integer> {
+public class ContinuousQueryCommand implements Callable<Integer> {
+
+    @Mixin
+    private MongoCommonMixin mongoCommonMixin;
 
     @Option(names = {"-q", "--query"}, description = "the query to run", required = true)
     private Bson query;
@@ -40,7 +40,7 @@ public class ContinuousQueryCommand extends MongoClientCommand implements Callab
     public Integer call() throws IOException {
 
         // get the current replica set status
-        Document rsStatus = getSyncDatabase("admin").runCommand(new Document("replSetGetStatus", 1));
+        Document rsStatus = mongoCommonMixin.getSyncDatabase("admin").runCommand(new Document("replSetGetStatus", 1));
 
         // get the majority commit point from the replicaset status
         BsonTimestamp mcp = rsStatus
@@ -49,7 +49,7 @@ public class ContinuousQueryCommand extends MongoClientCommand implements Callab
                 .get("ts", BsonTimestamp.class);
 
         // get the mongo collection
-        MongoCollection<Document> mc = getSyncCollection()
+        MongoCollection<Document> mc = mongoCommonMixin.getSyncCollection()
                 .withReadConcern(ReadConcern.MAJORITY)
                 .withWriteConcern(WriteConcern.MAJORITY);
 
@@ -86,4 +86,20 @@ public class ContinuousQueryCommand extends MongoClientCommand implements Callab
 
     private Consumer<ChangeStreamDocument<Document>> printCsDoc = cs -> System.out.println(cs.getDocumentKey() + " " + cs.getFullDocument() + " " + cs.getUpdateDescription());
     private Consumer<Document> printDoc = doc -> System.out.println(doc.toJson(jws));
+
+    private void something() {
+        // get MongoDB connection
+        MongoClient client = MongoClients.create();
+
+        // get the mongo collection
+        MongoCollection<Document> mongoCollection = client.getDatabase("test")
+                .getCollection("trade")
+                .withReadConcern(ReadConcern.MAJORITY);
+
+        // start watching for changes to the document(s) from the operation time index
+        ChangeStreamIterable<Document> changeStream = mongoCollection.watch(singletonList(match(eq("documentKey._id", 123))));
+
+        // get the initial document(s) state
+        FindIterable<Document> findResults = mongoCollection.find(eq("_id", 123));
+    }
 }
